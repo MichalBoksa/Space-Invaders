@@ -6,7 +6,7 @@ class InvadersGroup extends GameObject
         super();
         this.displayInvaders();
         this.movingDirection = 1; // 1 -right 0- left
-        this.shootLaserTimer = 350;
+        this.shootLaserTimer = 150;
     }
 
     updateState()
@@ -21,7 +21,7 @@ class InvadersGroup extends GameObject
                     this.movingDirection = 0;
                     return;
                 }
-                invaderElement.setX(invaderElement.getX() + 0.2);
+                invaderElement.setX(invaderElement.getX() + 0.4);
             });
         }
 
@@ -34,7 +34,7 @@ class InvadersGroup extends GameObject
                     this.movingDirection = 1;
                     return;
                 }
-                invaderElement.setX(invaderElement.getX() - 0.2);
+                invaderElement.setX(invaderElement.getX() - 0.4);
             });
         }
     }
@@ -77,7 +77,11 @@ class InvadersGroup extends GameObject
             invadersLasers[numberOfInvaderLasersFired] = new Laser(invaderLaserImage,invadersArray[invaderIndex].getCentreX(),invadersArray[invaderIndex].getY(),false);
             invadersLasers[numberOfInvaderLasersFired].start();
             numberOfInvaderLasersFired++;
-            this.shootLaserTimer = 350;
+            if( this.shootLaserTimer < 180 ){
+                this.shootLaserTimer = 180;
+            }else {
+                this.shootLaserTimer = 350 - level;
+            } 
         }
     }
 }

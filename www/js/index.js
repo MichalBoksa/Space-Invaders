@@ -15,18 +15,18 @@ function onDeviceReady()
 {
     canvas = document.getElementById("gameCanvas");
     ctx = canvas.getContext("2d");
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
+    // canvas.width = canvas.clientWidth;
+    // canvas.height = canvas.clientHeight;
+    canvas.width = 390;
+    canvas.height = 600;
 
     playGame(); // Each game will include its own .js file, which will hold the game's palyGame() function
 }
 
 function handleMotionEvent (event) {
-  //TODO wzory
         const x = event.accelerationIncludingGravity.x;
-    spaceship.changeX((canvas.width * - x) / 300 );
-       gameObjects[WIN_LOSE_MESSAGE] = new StaticText((canvas.width * -x) / 300, 50, 270, "Times Roman", 30, "red");
-           gameObjects[WIN_LOSE_MESSAGE].start();
+        spaceship.changeX((canvas.width * -x) / 300 );
+
 }
 
 

@@ -8,7 +8,7 @@ class FirebaseService{
     }
 
    async addScoreToDb(name,scores){
-    console.log("Asdfff");
+
      const docRef = await this.addDoc(this.dbRef, {
             name:name,
             score:scores}).then(docRef => {
@@ -20,15 +20,26 @@ class FirebaseService{
     }
 
    async getHighScoreTable(){
-    console.log("Asdfff");
+    let scoresTemp = [];
         try {
-            const highScoreTable = [];
-            const docsSnap = await getDocs(this.dbRef);
+            const docsSnap = await this.getDocs(this.dbRef);
             docsSnap.forEach(doc => {
-                highScoreTable.push(doc.data());
+                scoresTemp.push(doc.data());
             })
+            scoresTemp.sort(function(x, y) {
+                if (x.score < y.score) {
+                  return -1;
+                }
+                if (x.score > y.score) {
+                  return 1;
+                }
+                return 0;
+              });
         } catch (error) {
             console.log(error);
         }
+        scoresTemp =  scoresTemp.slice(-5);
+        console.log(scoresTemp.length);
+       return scoresTemp;
     }
 }

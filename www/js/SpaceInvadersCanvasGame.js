@@ -22,9 +22,18 @@ class SpaceInvadersCanvasGame extends CanvasGame
               
        }
 
-       for (let i = 0; i < numberOfSpaceShipLasersFired ; i++)
+       for (let i = 0; i < numberOfSpaceShipLasersFired; i++)
        {
        spaceshipLasers = spaceshipLasers.filter(n => n);
+       if(mysterySpaceship.getIsAlive() && spaceshipLasers[i] !== undefined &&  mysterySpaceship.pointIsInsideBoundingRectangle(spaceshipLasers[i].getCentreX(), spaceshipLasers[i].getCentreY()))
+       {
+        spaceshipLasers.splice(spaceshipLasers[i], 1);
+        numberOfSpaceShipLasersFired--;
+        score += 200;
+        gameObjects[SCORE].setText(score);
+        mysterySpaceship.setIsAlive(false);
+        mysterySpaceship.setX(0);
+       }
         invadersArray.every(invaderElement => {
            if (spaceshipLasers[i] !== undefined && invaderElement.pointIsInsideBoundingRectangle(spaceshipLasers[i].getCentreX(), spaceshipLasers[i].getCentreY())){
                spaceshipLasers.splice(spaceshipLasers[i], 1 );
@@ -76,7 +85,7 @@ class SpaceInvadersCanvasGame extends CanvasGame
         //NEXT LEVEL
         if(invadersArray.length === 0 && temp === 0 && !isGameLost ){
            
-            gameObjects[WIN_LOSE_MESSAGE] = new StaticText("CONGRATS, TIME TO NEXT LEVEL", 50, 270, "Times Roman", 30, "red");
+            gameObjects[WIN_LOSE_MESSAGE] = new StaticText("CONGRATS, \n TIME TO NEXT LEVEL", 50, 270, "Times Roman", 20, "red");
             gameObjects[WIN_LOSE_MESSAGE].start();
             temp = 1;
             for (let i = 0; i < spaceshipLasers.length; i++) 
@@ -123,11 +132,24 @@ class SpaceInvadersCanvasGame extends CanvasGame
             if(invadersLasers[i] !== undefined)
             invadersLasers[i].render();
         }
-        gameObjects[SCORE].render();
+       //  gameObjects[SCORE].render();
+        
+        if( this.getRandomSpawnTick() === 49 && !mysterySpaceship.getIsAlive() && !isGameLost){
+          mysterySpaceship.setIsAlive(true);
+          console.log("I'min")
+        }
+        mysterySpaceship.render();
     }
 
 
     stopGameObjects() {
+        let scores = [];
+        firebaseService.addScoreToDb("sdf",score);
+         firebaseService.getHighScoreTable().then( scores => { 
+            this.displayLeaderboard(scores); 
+        });               
+       
+        
         for (let i = 0; i < spaceshipLasers.length; i++) 
         { if(spaceshipLasers[i] !== undefined)
             spaceshipLasers[i].stop();
@@ -141,10 +163,10 @@ class SpaceInvadersCanvasGame extends CanvasGame
         spaceshipLasers = [];
         invadersLasers = [];
         invadersArray = [];
-        gameObjects[WIN_LOSE_MESSAGE] = new StaticText("YOU LOSE! \n press enter to play again", 50, 270, "Times Roman", 30, "red");
+        gameObjects[WIN_LOSE_MESSAGE] = new StaticText("YOU LOSE! Press enter to play again", 50, 270, "Times Roman", 20, "red");
         gameObjects[WIN_LOSE_MESSAGE].start();
         isGameLost = true;
-        firebaseService.addScoreToDb("sdf",score);
+        
        
         level = 1;
         LevelsInvaderArray = [
@@ -154,6 +176,7 @@ class SpaceInvadersCanvasGame extends CanvasGame
             1,1,1,1,1,1,1,
             1,1,1,1,1,1,1
             ];
+
     }
 
     startGameObjects() {
@@ -161,9 +184,47 @@ class SpaceInvadersCanvasGame extends CanvasGame
         gameObjects[SCORE].setText(score);
         invadersGroup.displayInvaders();
         gameObjects[WIN_LOSE_MESSAGE].stopAndHide();
+        gameObjects[LEADERBOARD].stopAndHide();
+        gameObjects[SCORE1].stopAndHide();
+        gameObjects[SCORE2].stopAndHide();
+        gameObjects[SCORE3].stopAndHide();
+        gameObjects[SCORE4].stopAndHide();
+        gameObjects[SCORE5].stopAndHide();
         isGameLost = false;
     }
+
+
+    displayLeaderboard(scores) {
+        const startY = 210;
+        const incrementY = 30;
+        let currentY = startY;
+        let scoreIterator = 4;
+        let positionIterator = 5;
+    
+        gameObjects[LEADERBOARD] = new StaticText("Leaderboard", STATIC_TEXT_CENTRE, 60, "Arial", 24, "white");
+        gameObjects[LEADERBOARD].start();
+        console.log(scores.length);
+
+        scores.forEach(score => {
+            let scoreText = `${positionIterator}: ${score.score}`;
+            gameObjects[scoreIterator]= new StaticText(scoreText, STATIC_TEXT_CENTRE, currentY, "Arial", 20, "white");
+            gameObjects[scoreIterator].start();
+            currentY -= incrementY;
+            scoreIterator+=1;
+            positionIterator-=1;
+        });
+    }
+
+    submitScore(username, score) {
+        firebase.firestore().collection('scores').add({
+            username: username,
+            score: score
+        });
     
 }
 
+ getRandomSpawnTick() {
+    return Math.floor(Math.random() * 1000);
+}
 
+}

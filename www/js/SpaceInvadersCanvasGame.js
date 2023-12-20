@@ -85,7 +85,7 @@ class SpaceInvadersCanvasGame extends CanvasGame
         //NEXT LEVEL
         if(invadersArray.length === 0 && temp === 0 && !isGameLost ){
            
-            gameObjects[WIN_LOSE_MESSAGE] = new StaticText("CONGRATS, \n TIME TO NEXT LEVEL", 50, 270, "Times Roman", 20, "red");
+            gameObjects[WIN_LOSE_MESSAGE] = new StaticText("CONGRATS, TIME TO NEXT LEVEL", 50, 270, "Times Roman", 20, "red");
             gameObjects[WIN_LOSE_MESSAGE].start();
             temp = 1;
             for (let i = 0; i < spaceshipLasers.length; i++) 
@@ -136,7 +136,6 @@ class SpaceInvadersCanvasGame extends CanvasGame
         
         if( this.getRandomSpawnTick() === 49 && !mysterySpaceship.getIsAlive() && !isGameLost){
           mysterySpaceship.setIsAlive(true);
-          console.log("I'min")
         }
         mysterySpaceship.render();
     }
@@ -163,7 +162,12 @@ class SpaceInvadersCanvasGame extends CanvasGame
         spaceshipLasers = [];
         invadersLasers = [];
         invadersArray = [];
-        gameObjects[WIN_LOSE_MESSAGE] = new StaticText("YOU LOSE! Press enter to play again", 50, 270, "Times Roman", 20, "red");
+        if(device.platform === "browser"){
+            gameObjects[WIN_LOSE_MESSAGE] = new StaticText("YOU LOSE! Press enter to play again", 50, 270, "Times Roman", 20, "red");
+        }
+       else{
+        gameObjects[WIN_LOSE_MESSAGE] = new StaticText("YOU LOSE! Double tap screen to play again", 50, 270, "Times Roman", 20, "red");
+       }
         gameObjects[WIN_LOSE_MESSAGE].start();
         isGameLost = true;
         
@@ -203,7 +207,6 @@ class SpaceInvadersCanvasGame extends CanvasGame
     
         gameObjects[LEADERBOARD] = new StaticText("Leaderboard", STATIC_TEXT_CENTRE, 60, "Arial", 24, "white");
         gameObjects[LEADERBOARD].start();
-        console.log(scores.length);
 
         scores.forEach(score => {
             let scoreText = `${positionIterator}: ${score.score}`;

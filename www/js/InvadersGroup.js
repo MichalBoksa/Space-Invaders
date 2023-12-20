@@ -21,7 +21,7 @@ class InvadersGroup extends GameObject
                     this.movingDirection = 0;
                     return;
                 }
-                invaderElement.setX(invaderElement.getX() + 0.4);
+                invaderElement.setX(invaderElement.getX() + 0.2);
             });
         }
 
@@ -34,7 +34,7 @@ class InvadersGroup extends GameObject
                     this.movingDirection = 1;
                     return;
                 }
-                invaderElement.setX(invaderElement.getX() - 0.4);
+                invaderElement.setX(invaderElement.getX() - 0.2);
             });
         }
     }
@@ -80,7 +80,7 @@ class InvadersGroup extends GameObject
             if( this.shootLaserTimer < 180 ){
                 this.shootLaserTimer = 180;
             }else {
-                this.shootLaserTimer = 350 - level;
+                this.shootLaserTimer = 350;
             } 
         }
     }

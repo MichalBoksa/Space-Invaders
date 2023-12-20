@@ -38,6 +38,7 @@ let invadersLasers = [];
 let numberOfSpaceShipLasersFired = 0;
 let numberOfInvaderLasersFired = 0;
 let score = 0;
+
 let LevelsInvaderArray = [
     1,1,1,1,1,1,1,
     1,1,1,1,1,1,1,
@@ -58,7 +59,6 @@ function playGame()
     mysterySpaceship = new Mystery(0,55, 25,mysteryImage);
     invadersGroup = new InvadersGroup();
     let game = new SpaceInvadersCanvasGame();
-
     game.start();
     
 
@@ -85,7 +85,12 @@ function playGame()
         {
             game.startGameObjects();
         }
+
+       
+
     });
+
+ 
 
    
 }

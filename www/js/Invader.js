@@ -108,6 +108,13 @@ class Invader extends GameObject
         return this.x + this.width / 2;
     }
 
+    
+    getCentreY()
+    {
+        return this.y + this.height / 2;
+    }
+
+
     pointIsInsideBoundingRectangle(pointX, pointY)
     {
         if ((pointX > this.x) && (pointY > this.y))

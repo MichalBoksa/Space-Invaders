@@ -29,16 +29,22 @@ class SpaceInvadersCanvasGame extends CanvasGame
        {
         spaceshipLasers.splice(spaceshipLasers[i], 1);
         numberOfSpaceShipLasersFired--;
+        gameObjects[EXPLOSION] = new Explosion(explosionImage, mysterySpaceship.getCentreX(), mysterySpaceship.getCentreY(), 120);
+        gameObjects[EXPLOSION].start();
         score += 200;
         gameObjects[SCORE].setText(score);
         mysterySpaceship.setIsAlive(false);
         mysterySpaceship.setX(0);
        }
+
+
         invadersArray.every(invaderElement => {
            if (spaceshipLasers[i] !== undefined && invaderElement.pointIsInsideBoundingRectangle(spaceshipLasers[i].getCentreX(), spaceshipLasers[i].getCentreY())){
                spaceshipLasers.splice(spaceshipLasers[i], 1 );
                 numberOfSpaceShipLasersFired--;
                 invaderElement.setLives(invaderElement.getLives()-1);
+                gameObjects[EXPLOSION] = new Explosion(explosionImage, invaderElement.getCentreX(), invaderElement.getCentreY(), 120);
+                gameObjects[EXPLOSION].start();
 
                 if (invaderElement.getLives() === 0){
                     invadersArray.splice(invadersArray.indexOf(invaderElement), 1);

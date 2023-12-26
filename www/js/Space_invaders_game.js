@@ -17,6 +17,9 @@ invaderLaserImage.src = "images/invader_laser.png";
 let mysteryImage = new Image();
 mysteryImage.src = "images/bonus_spaceship.png";
 
+let explosionImage = new Image();
+explosionImage.src = "images/explosion.png";
+
 const BACKGROUND = 0;
 const WIN_LOSE_MESSAGE = 1;
 const SCORE = 2;
@@ -26,6 +29,7 @@ const SCORE2 = 5;
 const SCORE3 = 6;
 const SCORE4 = 7;
 const SCORE5 = 8;
+const EXPLOSION = 9;
 let temp = 0;
 let level = 1;
 let spaceship = null; 

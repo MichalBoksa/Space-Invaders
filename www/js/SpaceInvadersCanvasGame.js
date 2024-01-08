@@ -29,8 +29,13 @@ class SpaceInvadersCanvasGame extends CanvasGame
        {
         spaceshipLasers.splice(spaceshipLasers[i], 1);
         numberOfSpaceShipLasersFired--;
+        if(device.platform === "browser"){
         gameObjects[EXPLOSION] = new Explosion(explosionImage, mysterySpaceship.getCentreX(), mysterySpaceship.getCentreY(), 120);
         gameObjects[EXPLOSION].start();
+        }
+        else{
+            navigator.vibrate(200);
+        }
         score += 200;
         gameObjects[SCORE].setText(score);
         mysterySpaceship.setIsAlive(false);
@@ -43,8 +48,13 @@ class SpaceInvadersCanvasGame extends CanvasGame
                spaceshipLasers.splice(spaceshipLasers[i], 1 );
                 numberOfSpaceShipLasersFired--;
                 invaderElement.setLives(invaderElement.getLives()-1);
-                gameObjects[EXPLOSION] = new Explosion(explosionImage, invaderElement.getCentreX(), invaderElement.getCentreY(), 120);
-                gameObjects[EXPLOSION].start();
+                if(device.platform === "browser"){
+                    gameObjects[EXPLOSION] = new Explosion(explosionImage, mysterySpaceship.getCentreX(), mysterySpaceship.getCentreY(), 120);
+                    gameObjects[EXPLOSION].start();
+                    }
+                    else{
+                        navigator.vibrate(200);
+                    }
 
                 if (invaderElement.getLives() === 0){
                     invadersArray.splice(invadersArray.indexOf(invaderElement), 1);
@@ -172,7 +182,7 @@ class SpaceInvadersCanvasGame extends CanvasGame
             gameObjects[WIN_LOSE_MESSAGE] = new StaticText("YOU LOSE! Press enter to play again", 50, 270, "Times Roman", 20, "red");
         }
        else{
-        gameObjects[WIN_LOSE_MESSAGE] = new StaticText("YOU LOSE! Double tap screen to play again", 50, 270, "Times Roman", 20, "red");
+        gameObjects[WIN_LOSE_MESSAGE] = new StaticText("YOU LOSE! Double tap screen to play again", 50, 270, "Times Roman", 16, "red");
        }
         gameObjects[WIN_LOSE_MESSAGE].start();
         isGameLost = true;

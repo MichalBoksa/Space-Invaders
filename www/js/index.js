@@ -35,7 +35,6 @@ function process_touchstart() {
     spaceshipLasers[numberOfSpaceShipLasersFired] = new Laser(spaceshipLaserImage, spaceship.getCentreX(),0 ,true);
             spaceshipLasers[numberOfSpaceShipLasersFired].start();
             numberOfSpaceShipLasersFired++;
-            console.log("ddddddddddddddd")
             if (isGameLost) {
               window.addEventListener("touchstart", doubleTouchstart,false);
               window.removeEventListener('touchstart', process_touchstart, false);
@@ -46,7 +45,6 @@ function process_touchstart() {
     if (isGameLost) {
       window.addEventListener('touchstart', process_touchstart, false);
       let game = new SpaceInvadersCanvasGame();
-      console.log("ssssssssssssss")
       game.startGameObjects();
       window.removeEventListener('touchstart', doubleTouchstart, false);
   }   
